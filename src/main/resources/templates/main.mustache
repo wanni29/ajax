@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>카테고리별 기술 목록보기</h1>
+    <hr />
+    <select id="category" onchange="onCategoryChange()">
+    </select>
+    <select>
+    </select>
+    <script>
+        async function fetchCategory() {
+            // download
+            let response = await fetch("/api/category");
+            let body = await response.json(); // json -> js object
+
+            // dom제어
+            let categoryEl = document.querySelector("#category");
+            for (c of body) {
+                let optionEl = document.createElement("option");
+                optionEl.value = c.id;
+                optionEl.innerHTML = c.name;
+                categoryEl.append(optionEl);
+            }
+            //console.log(body);
+        }
+
+        async function fetchTech(categoryId) {
+
+
+            // download
+            let response = await fetch("/api/tech?categoryId=" + categoryId);
+            let body = await response.json();
+
+
+            // 옵션 초기화
+            let techEl = document.querySelector("#tech");
+            techEl.innerHTML = ""; // Clear previous options
+            // 옵션 초기화
+            // 옵션을 초기화 를 하는 이유
+            // 백엔드를 선택한 상황 spring java mysql 이 데이터가 그대로 있는데
+            // 프론트 엔드를 선택하면 html css 데이터가 겹쳐지면서 
+            // 프론트 엔드를 선택했을때에 spring java mysql html css 5가지가 데이터 중첩이 일어난다.
+            // 그래서 이전의 3가지는 지워주고 실행하는게 올바르다.
+
+
+            // dom 제어
+            for (t of body) {
+                let optionEl = document.createElement("option");
+                optionEl.value = t.id;
+                optionEl.innerHTML = t.name;
+                techEl.append(optionEl);
+            }
+
+
+            async function onCategoryChange() {
+                let categoryEl = document.querySelector("#category");
+                let selectedCategoryId = categoryEl.value;
+                fetchTech(selectedCategoryId);
+            }
+
+        }
+        fetchCategory();
+        fetchTech();
+    </script>
+</body>
+
+</html>
