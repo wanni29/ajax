@@ -48,7 +48,8 @@ public class TechController {
     }
 
     @GetMapping("/api/tech")
-    public @ResponseBody List<Tech> techApi(@RequestParam(defaultValue = "1") Integer categoryId) {
+    public @ResponseBody List<Tech> techApi(
+            @RequestParam(defaultValue = "1") Integer categoryId) {
         return techRepository.findByCategoryId(categoryId);
     }
 }

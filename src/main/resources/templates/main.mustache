@@ -11,8 +11,9 @@
     <h1>카테고리별 기술 목록보기</h1>
     <hr />
     <select id="category" onchange="onCategoryChange()">
+
     </select>
-    <select>
+    <select id="tech">
     </select>
     <script>
         async function fetchCategory() {
@@ -58,16 +59,18 @@
                 techEl.append(optionEl);
             }
 
-
-            async function onCategoryChange() {
-                let categoryEl = document.querySelector("#category");
-                let selectedCategoryId = categoryEl.value;
-                fetchTech(selectedCategoryId);
-            }
-
         }
+
+
+        async function onCategoryChange() {
+            let categoryEl = document.querySelector("#category");
+            let selectedCategoryId = categoryEl.value;
+            fetchTech(selectedCategoryId);
+        }
+
+
         fetchCategory();
-        fetchTech();
+        fetchTech(1);
     </script>
 </body>
 
